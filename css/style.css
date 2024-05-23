@@ -19,7 +19,42 @@ img{
 /******************************************
 /* ADDITIONAL STYLES
 /*******************************************/
-
 .hidden {
   display: none;
+}
+
+.pokedex {
+  width: 300px;
+  position: relative;
+}
+.pokedex ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+#pokemonInput {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.dropdown {
+  position: absolute;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-top: none;
+  max-height: 150px;
+  overflow-y: auto;
+  background-color: white;
+  display: none;
+  z-index: 3;
+}
+
+.dropdown li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown li:hover {
+  background-color: #f0f0f0;
 }

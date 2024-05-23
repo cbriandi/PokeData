@@ -5,16 +5,18 @@
     	<meta name="description" content="This is where your description goes">
     	<meta name="keywords" content="one, two, three">
 
-		<title>Pokedex</title>
+		<title>PokéData</title>
 
 		<!-- external CSS link -->
 		<link rel="stylesheet" href="css/normalize.css">
 		<link rel="stylesheet" href="css/style.css">
 	</head>
 	<body>
-		<h1>Online Pokedex!</h1>
-		<input type="text">
-		<button type="button" name="button">Enter Pokemon</button>
+		<h1>Online Pokédex!</h1>
+		<div class="pokedex">
+			<input type="text" autocomplete="off" id="pokemonInput" placeholder="Enter a Pokémon name">
+			<ul id="dropdown" class="dropdown"></ul>
+		</div>
 		<main>
 			<h2></h2>
 			<img src="">
@@ -32,6 +34,7 @@
 				<span id="type"></span>
 			</section>
 		</main>
+		<span id="array"></span>
 		<script type="text/javascript" src="js/main.js"></script>
 	</body>
 </html>
