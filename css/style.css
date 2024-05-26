@@ -113,8 +113,17 @@ main {
 
 .name {
   font-size: 3rem;
+  font-weight: 800;
   text-align: center;
   padding: 20px 0 0 0;
+}
+
+.id {
+  display: block;
+  font-size: 2rem;
+  font-weight: 200;
+  text-align: center;
+  padding: 10px 0 0 0;
 }
 
 .info {
@@ -128,6 +137,10 @@ main {
 .imageBox {
   height: 300px;
   padding: 30px;
+  background: #000000;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #434343, #000000);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #434343, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 }
 
 .gif{
@@ -138,6 +151,7 @@ main {
 .infoBox {
   font-size: 1.6rem;
   margin-left: 30px;
+  width: 20%;
   height: 300px;
   display: flex;
   flex-direction: column;
@@ -173,4 +187,9 @@ main {
 
 .column1 span, .column2 span {
   font-size: 1.5rem;
+}
+
+#description {
+  line-height: 2.2rem;
+  font-weight: 700;
 }

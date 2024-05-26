@@ -1,6 +1,6 @@
 //class for local storage
 class Pokemon {
-  constructor(name, cries, image, height, weight, abilities, type, description) {
+  constructor(name, cries, image, height, weight, abilities, type, description, id) {
       this.name = name;
       this.cries = cries;
       this.image = image;
@@ -9,6 +9,7 @@ class Pokemon {
       this.abilities = abilities;
       this.type = type;
       this.description = description;
+      this.id = id
   }
 }
 
@@ -73,7 +74,8 @@ function getFetch(url, pokemon) {
                   const weight = data.weight;
                   const abilities = data.abilities;
                   const type = data.types;
-                  const pokemonObj = new Pokemon(name, cries, image, height, weight, abilities, type, description);
+                  const id = processId(data.id);
+                  const pokemonObj = new Pokemon(name, cries, image, height, weight, abilities, type, description, id);
                   const pokemonJSON = JSON.stringify(pokemonObj);
                   localStorage.setItem(pokemon, pokemonJSON);
               })
@@ -139,6 +141,7 @@ function displayInfoFromFetch(data, description) {
   }
   document.querySelector('h2').innerText = data.name[0].toUpperCase() + data.name.slice(1);
   // document.querySelector('img').src = data.sprites.other.dream_world.front_default !== null ? data.sprites.other.dream_world.front_default : data.sprites.other.home.front_default;
+  document.querySelector('.id').innerText = `#${processId(data.id)}`;
   document.querySelector('.gif').src = data.sprites.other.showdown.front_default ? data.sprites.other.showdown.front_default : data.sprites.other.home.front_default;
   document.getElementById('height').innerText = convertHeight(data.height);
   document.getElementById('weight').innerText = convertWeight(data.weight);
@@ -156,6 +159,7 @@ function displayInfoFromLocalStorage(data) {
       playAudio(data.cries.latest);
   }
   document.querySelector('h2').innerText = data.name[0].toUpperCase() + data.name.slice(1);
+  document.querySelector('.id').innerText = `#${data.id}`;
   document.querySelector('.gif').src = data.image;
   document.getElementById('height').innerText = convertHeight(data.height);
   document.getElementById('weight').innerText = convertWeight(data.weight);
@@ -220,6 +224,19 @@ function getType(types) {
       document.querySelector('.type').classList.add('hidden');
   }
   return types.map(x => x.type.name).join(', ');
+}
+
+function processId(id) {
+    if(+id < 10) {
+        return `000${id}`;
+    }
+    else if(+id < 100) {
+        return `00${id}`;
+    }
+    else if(+id < 1000) {
+        return `0${id}`;
+    }
+    else return id;
 }
 
 function playAudio(file) {
