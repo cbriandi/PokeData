@@ -222,7 +222,7 @@ function getAbilities(abilities) {
   } else {
       document.querySelector('.abilities').classList.add('hidden');
   }
-  return abilities.map(x => capitalizeFirst(x.ability.name)).join(', ');
+  return abilities.map(x => x.ability.name.split('-').map(x => x[0].toUpperCase() + x.slice(1)).join(' ')).join(', ');
 }
 
 function getImage(image) {
