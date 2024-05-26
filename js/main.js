@@ -113,8 +113,10 @@ function fetchDescription(url) {
   return fetch(url)
       .then(res => res.json()) // parse response as JSON
       .then(data => {
-          const desc = data.flavor_text_entries[0].flavor_text.replaceAll('\n', ' ').replaceAll('\f', ' ');
-          return desc;
+        const entries = data.flavor_text_entries.filter(x => x.language.name === 'en');
+
+        const desc = entries[0].flavor_text.replaceAll('\n', ' ').replaceAll('\f', ' ');
+        return desc;
       })
       .catch(err => {
           console.log(`error ${err}`);
