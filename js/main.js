@@ -27,13 +27,13 @@ pokemonInput.addEventListener('input', () => {
         
         filteredPokemon.forEach(pokemon => {
             const li = document.createElement('li');
-            li.textContent = pokemon[0].toUpperCase() + pokemon.slice(1);
+            li.textContent = processName(pokemon);
             li.addEventListener('click', () => {
-                pokemonInput.value = pokemon;
-                console.log(`Selected Pokémon: ${pokemon}`); // Log the selected Pokémon
-                if (localStorage.getItem(pokemon)) {
-                    console.log(`${pokemon} is in storage!`);
-                    displayInfoFromLocalStorage(getFromLocal(pokemon));
+                pokemonInput.value = processName(pokemon);
+                console.log(`Selected Pokémon: ${processName(pokemon)}`); // Log the selected Pokémon
+                if (localStorage.getItem(processName(pokemon))) {
+                    console.log(`${processName(pokemon)} is in storage!`);
+                    displayInfoFromLocalStorage(getFromLocal(processName(pokemon)));
                 } else {
                     console.log(`not in storage, fetching from API`);
                     const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
@@ -66,7 +66,7 @@ function getFetch(url, pokemon) {
           return fetchDescription(data.species.url)
               .then(description => {
                   displayInfoFromFetch(data, description);
-                  const name = pokemon;
+                  const name = processName(pokemon);
                   const cries = data.cries;
                   const image = data.sprites.other.showdown.front_default ? data.sprites.other.showdown.front_default : data.sprites.other.home.front_default;
                   // const image = data.sprites.other.dream_world.front_default !== null ? data.sprites.other.dream_world.front_default : data.sprites.other.home.front_default;
@@ -116,7 +116,13 @@ function fetchDescription(url) {
         const entries = data.flavor_text_entries.filter(x => x.language.name === 'en');
 
         const desc = entries[0].flavor_text.replaceAll('\n', ' ').replaceAll('\f', ' ');
-        return desc;
+
+        let arr = desc.split(' ');
+        arr.forEach((x, i) => { 
+            console.log(x[0] + x.slice(1).toLowerCase());
+            arr[i] = x[0] + x.slice(1).toLowerCase()
+      });
+        return arr.join(' ');
       })
       .catch(err => {
           console.log(`error ${err}`);
@@ -141,7 +147,7 @@ function displayInfoFromFetch(data, description) {
   } else {
       playAudio(data.cries.latest);
   }
-  document.querySelector('h2').innerText = data.name[0].toUpperCase() + data.name.slice(1);
+  document.querySelector('h2').innerText = processName(data.name);
   // document.querySelector('img').src = data.sprites.other.dream_world.front_default !== null ? data.sprites.other.dream_world.front_default : data.sprites.other.home.front_default;
   document.querySelector('.id').innerText = `#${processId(data.id)}`;
   document.querySelector('.gif').src = data.sprites.other.showdown.front_default ? data.sprites.other.showdown.front_default : data.sprites.other.home.front_default;
@@ -160,7 +166,7 @@ function displayInfoFromLocalStorage(data) {
   } else {
       playAudio(data.cries.latest);
   }
-  document.querySelector('h2').innerText = data.name[0].toUpperCase() + data.name.slice(1);
+  document.querySelector('h2').innerText = data.name;
   document.querySelector('.id').innerText = `#${data.id}`;
   document.querySelector('.gif').src = data.image;
   document.getElementById('height').innerText = convertHeight(data.height);
@@ -216,7 +222,7 @@ function getAbilities(abilities) {
   } else {
       document.querySelector('.abilities').classList.add('hidden');
   }
-  return abilities.map(x => x.ability.name).join(', ');
+  return abilities.map(x => capitalizeFirst(x.ability.name)).join(', ');
 }
 
 function getType(types) {
@@ -225,7 +231,7 @@ function getType(types) {
   } else {
       document.querySelector('.type').classList.add('hidden');
   }
-  return types.map(x => x.type.name).join(', ');
+  return types.map(x => capitalizeFirst(x.type.name)).join(', ');
 }
 
 function processId(id) {
@@ -239,6 +245,14 @@ function processId(id) {
         return `0${id}`;
     }
     else return id;
+}
+
+function processName(name) {
+    return name.split('-').map(x => x[0].toUpperCase() + x.slice(1)).join(' ');
+}
+
+function capitalizeFirst(str) {
+    return str[0].toUpperCase() + str.slice(1);
 }
 
 function playAudio(file) {
