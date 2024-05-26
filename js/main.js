@@ -150,7 +150,7 @@ function displayInfoFromFetch(data, description) {
   document.querySelector('h2').innerText = processName(data.name);
   // document.querySelector('img').src = data.sprites.other.dream_world.front_default !== null ? data.sprites.other.dream_world.front_default : data.sprites.other.home.front_default;
   document.querySelector('.id').innerText = `#${processId(data.id)}`;
-  document.querySelector('.gif').src = data.sprites.other.showdown.front_default ? data.sprites.other.showdown.front_default : data.sprites.other.home.front_default;
+  document.querySelector('.gif').src = data.sprites.other.showdown.front_default ? getImage(data.sprites.other.showdown.front_default) : getImage(data.sprites.other.home.front_default);
   document.getElementById('height').innerText = convertHeight(data.height);
   document.getElementById('weight').innerText = convertWeight(data.weight);
   document.getElementById('abilities').innerText = getAbilities(data.abilities);
@@ -168,7 +168,7 @@ function displayInfoFromLocalStorage(data) {
   }
   document.querySelector('h2').innerText = data.name;
   document.querySelector('.id').innerText = `#${data.id}`;
-  document.querySelector('.gif').src = data.image;
+  document.querySelector('.gif').src = getImage(data.image);
   document.getElementById('height').innerText = convertHeight(data.height);
   document.getElementById('weight').innerText = convertWeight(data.weight);
   document.getElementById('abilities').innerText = getAbilities(data.abilities);
@@ -223,6 +223,17 @@ function getAbilities(abilities) {
       document.querySelector('.abilities').classList.add('hidden');
   }
   return abilities.map(x => capitalizeFirst(x.ability.name)).join(', ');
+}
+
+function getImage(image) {
+    {
+        if (image) {
+            document.querySelector('.imageBox').classList.remove('hidden');
+        } else {
+            document.querySelector('.imageBox').classList.add('hidden');
+        }
+        return image;
+      }
 }
 
 function getType(types) {
