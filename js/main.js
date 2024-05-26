@@ -1,4 +1,3 @@
-
 //class for local storage
 class Pokemon {
   constructor(name, cries, image, height, weight, abilities, type, description) {
@@ -140,7 +139,7 @@ function displayInfoFromFetch(data, description) {
   }
   document.querySelector('h2').innerText = data.name[0].toUpperCase() + data.name.slice(1);
   // document.querySelector('img').src = data.sprites.other.dream_world.front_default !== null ? data.sprites.other.dream_world.front_default : data.sprites.other.home.front_default;
-  document.querySelector('img').src = data.sprites.other.showdown.front_default ? data.sprites.other.showdown.front_default : data.sprites.other.home.front_default;
+  document.querySelector('.gif').src = data.sprites.other.showdown.front_default ? data.sprites.other.showdown.front_default : data.sprites.other.home.front_default;
   document.getElementById('height').innerText = convertHeight(data.height);
   document.getElementById('weight').innerText = convertWeight(data.weight);
   document.getElementById('abilities').innerText = getAbilities(data.abilities);
@@ -157,7 +156,7 @@ function displayInfoFromLocalStorage(data) {
       playAudio(data.cries.latest);
   }
   document.querySelector('h2').innerText = data.name[0].toUpperCase() + data.name.slice(1);
-  document.querySelector('img').src = data.image;
+  document.querySelector('.gif').src = data.image;
   document.getElementById('height').innerText = convertHeight(data.height);
   document.getElementById('weight').innerText = convertWeight(data.weight);
   document.getElementById('abilities').innerText = getAbilities(data.abilities);
@@ -228,8 +227,6 @@ function playAudio(file) {
   audio.volume = 0.02;
   audio.play();
 }
-
-
 
 const pokemonList = ['bulbasaur','ivysaur','venusaur','charmander','charmeleon','charizard','squirtle','wartortle','blastoise','caterpie','metapod','butterfree','weedle',
 'kakuna','beedrill','pidgey','pidgeotto','pidgeot','rattata','raticate','spearow','fearow','ekans','arbok','pikachu','raichu','sandshrew','sandslash','nidoran-f','nidorina',

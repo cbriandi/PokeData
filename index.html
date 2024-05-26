@@ -7,34 +7,61 @@
 
 		<title>PokéData</title>
 
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+
 		<!-- external CSS link -->
-		<link rel="stylesheet" href="css/normalize.css">
+		<link rel="stylesheet" href="css/reset.css">
 		<link rel="stylesheet" href="css/style.css">
 	</head>
 	<body>
-		<h1>Online Pokédex!</h1>
-		<div class="pokedex">
-			<input type="text" autocomplete="off" id="pokemonInput" placeholder="Enter a Pokémon name">
-			<ul id="dropdown" class="dropdown"></ul>
-		</div>
+		<header>
+			<img src="css\images\logo.png" alt="Logo" class="logo">
+			<div class="pokedex">
+				<input type="text" autocomplete="off" id="pokemonInput" placeholder="Enter a Pokémon name">
+				<ul id="dropdown" class="dropdown"></ul>
+			</div>
+		</header>
+		
 		<main>
-			<h2></h2>
-			<img src="">
-			<span id="description"></span>
+			<h2 class="name"></h2>
 			<section class="info">
-				<h3 class="height hidden">Height</h3>
-				<span id="height"></span>
-				<h3 class="weight hidden">Weight</h3>
-				<span id="weight"></span>
-				<h3 class="abilities hidden">Abilities</h3>
-				<span id="abilities"></span>
+				<div class="imageBox">
+					<img class="gif" src="">
+				</div>
+				
+				<div class="infoBox">
+					<span id="description"></span>
+					<div class="row1">
+						<div class="column1">
+							<div>
+								<h3 class="height hidden">Height</h3>
+								<span id="height"></span>
+							</div>
+							<div>
+								<h3 class="weight hidden">Weight</h3>
+								<span id="weight"></span>
+							</div>
+						</div>
+					
+						<div class="column2">
+							<div>
+								<h3 class="type hidden">Type</h3>
+								<span id="type"></span>
+							</div>
+							<div>
+								<h3 class="abilities hidden">Abilities</h3>
+								<span id="abilities"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				
 			</section>
-			<section class="typeContainer">
-				<h3 class="type hidden">Type</h3>
-				<span id="type"></span>
-			</section>
+			
 		</main>
-		<span id="array"></span>
 		<script type="text/javascript" src="js/main.js"></script>
 	</body>
 </html>
