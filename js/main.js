@@ -1,16 +1,16 @@
 //class for local storage
 class Pokemon {
-  constructor(name, cries, image, height, weight, abilities, type, description, id) {
-      this.name = name;
-      this.cries = cries;
-      this.image = image;
-      this.height = height;
-      this.weight = weight;
-      this.abilities = abilities;
-      this.type = type;
-      this.description = description;
-      this.id = id
-  }
+    constructor(name, cries, image, height, weight, abilities, type, description, id) {
+        this.name = name;
+        this.cries = cries;
+        this.image = image;
+        this.height = height;
+        this.weight = weight;
+        this.abilities = abilities;
+        this.type = type;
+        this.description = description;
+        this.id = id
+    }
 }
 
 const pokemonInput = document.getElementById('pokemonInput');
@@ -19,18 +19,16 @@ const dropdown = document.getElementById('dropdown');
 pokemonInput.addEventListener('input', () => {
     const input = pokemonInput.value.toLowerCase();
     dropdown.innerHTML = '';
-    console.log(input);
     if (input) {
         const filteredPokemon = pokemonList.filter(pokemon =>
-            pokemon.toLowerCase().startsWith(input)
-        );
+        pokemon.toLowerCase().startsWith(input)
+    );
         
         filteredPokemon.forEach(pokemon => {
             const li = document.createElement('li');
             li.textContent = processName(pokemon);
             li.addEventListener('click', () => {
                 pokemonInput.value = processName(pokemon);
-                console.log(`Selected Pokémon: ${processName(pokemon)}`); // Log the selected Pokémon
                 if (localStorage.getItem(processName(pokemon))) {
                     console.log(`${processName(pokemon)} is in storage!`);
                     displayInfoFromLocalStorage(getFromLocal(processName(pokemon)));
@@ -54,7 +52,7 @@ pokemonInput.addEventListener('input', () => {
 
 document.addEventListener('click', (e) => {
   if (!pokemonInput.contains(e.target) && !dropdown.contains(e.target)) {
-      dropdown.style.display = 'none';
+    dropdown.style.display = 'none';
   }
 });
 
@@ -63,25 +61,25 @@ function getFetch(url, pokemon) {
       .then(res => res.json()) // parse response as JSON
       .then(data => {
         console.log(data);
-          return fetchDescription(data.species.url)
-              .then(description => {
-                  displayInfoFromFetch(data, description);
-                  const name = processName(pokemon);
-                  const cries = data.cries;
-                  const image = data.sprites.other.showdown.front_default ? data.sprites.other.showdown.front_default : data.sprites.other.home.front_default;
-                  // const image = data.sprites.other.dream_world.front_default !== null ? data.sprites.other.dream_world.front_default : data.sprites.other.home.front_default;
-                  const height = data.height;
-                  const weight = data.weight;
-                  const abilities = data.abilities;
-                  const type = data.types;
-                  const id = processId(data.id);
-                  const pokemonObj = new Pokemon(name, cries, image, height, weight, abilities, type, description, id);
-                  const pokemonJSON = JSON.stringify(pokemonObj);
-                  localStorage.setItem(pokemon, pokemonJSON);
-              })
-              .catch(err => {
-                  console.log(`error ${err}`);
-              });
+        return fetchDescription(data.species.url)
+        .then(description => {
+            displayInfoFromFetch(data, description);
+            const name = processName(pokemon);
+            const cries = data.cries;
+            //   const image = data.sprites.other.dream_world.front_default ? data.sprites.other.dream_world.front_default : data.sprites.other.home.front_default;
+            const image = data.sprites.other["official-artwork"].front_default;
+            const height = data.height;
+            const weight = data.weight;
+            const abilities = data.abilities;
+            const type = data.types;
+            const id = processId(data.id);
+            const pokemonObj = new Pokemon(name, cries, image, height, weight, abilities, type, description, id);
+            const pokemonJSON = JSON.stringify(pokemonObj);
+            localStorage.setItem(pokemon, pokemonJSON);
+        })
+        .catch(err => {
+            console.log(`error ${err}`);
+        });
       })
       .catch(err => {
           console.log(`error ${err}`);
@@ -89,44 +87,41 @@ function getFetch(url, pokemon) {
 }
 
 pokemonInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' && document.activeElement === pokemonInput) {
-      const pokemon = pokemonInput.value.trim();
-      if (pokemon && pokemonList.includes(pokemon)) {
-          console.log(`Selected Pokémon: ${pokemon}`);
-          dropdown.style.display = 'none';
-          if (localStorage.getItem(pokemon)) {
-            console.log(`${pokemon} is in storage!`);
-            displayInfoFromLocalStorage(getFromLocal(pokemon));
+    if (e.key === 'Enter' && document.activeElement === pokemonInput) {
+        const pokemon = pokemonInput.value.trim().toLowerCase();
+        if (pokemon && pokemonList.includes(pokemon)) {
+            console.log(`Selected Pokémon: ${pokemon}`);
+            dropdown.style.display = 'none';
+            if (localStorage.getItem(pokemon)) {
+              console.log(`${pokemon} is in storage!`);
+              displayInfoFromLocalStorage(getFromLocal(pokemon));
+          } else {
+              console.log(`not in storage, fetching from API`);
+              const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
+              getFetch(url, pokemon);
+          }
         } else {
-            console.log(`not in storage, fetching from API`);
-            const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
-            getFetch(url, pokemon);
+            console.log('Please select a valid Pokémon from the dropdown.');
         }
-      } else {
-          console.log('Please select a valid Pokémon from the dropdown.');
-      }
-
-  }
-});
+  
+    }
+  });
 
 function fetchDescription(url) {
   return fetch(url)
-      .then(res => res.json()) // parse response as JSON
-      .then(data => {
+    .then(res => res.json()) // parse response as JSON
+    .then(data => {
         const entries = data.flavor_text_entries.filter(x => x.language.name === 'en');
-
         const desc = entries[0].flavor_text.replaceAll('\n', ' ').replaceAll('\f', ' ');
-
         let arr = desc.split(' ');
         arr.forEach((x, i) => { 
-            console.log(x[0] + x.slice(1).toLowerCase());
             arr[i] = x[0] + x.slice(1).toLowerCase()
       });
         return arr.join(' ');
-      })
-      .catch(err => {
-          console.log(`error ${err}`);
-      });
+    })
+    .catch(err => {
+        console.log(`error ${err}`);
+    });
 }
 
 function getFromLocal(pokemon) {
@@ -141,88 +136,88 @@ function getFromLocal(pokemon) {
 }
 
 function displayInfoFromFetch(data, description) {
-  console.log(data);
-  if (data.cries.legacy !== null) {
-      playAudio(data.cries.legacy);
-  } else {
-      playAudio(data.cries.latest);
-  }
-  document.querySelector('h2').innerText = processName(data.name);
-  // document.querySelector('img').src = data.sprites.other.dream_world.front_default !== null ? data.sprites.other.dream_world.front_default : data.sprites.other.home.front_default;
-  document.querySelector('.id').innerText = `#${processId(data.id)}`;
-  document.querySelector('.gif').src = data.sprites.other.showdown.front_default ? getImage(data.sprites.other.showdown.front_default) : getImage(data.sprites.other.home.front_default);
-  document.getElementById('height').innerText = convertHeight(data.height);
-  document.getElementById('weight').innerText = convertWeight(data.weight);
-  document.getElementById('abilities').innerText = getAbilities(data.abilities);
-  document.getElementById('type').innerText = getType(data.types);
-  document.getElementById('description').innerText = description;
+    console.log(data);
+    if (data.cries.legacy !== null) {
+        playAudio(data.cries.legacy);
+    } else {
+        playAudio(data.cries.latest);
+    }
+    document.querySelector('h2').innerText = processName(data.name);
+    // document.querySelector('img').src = data.sprites.other.dream_world.front_default !== null ? data.sprites.other.dream_world.front_default : data.sprites.other.home.front_default;
+    document.querySelector('.id').innerText = `#${processId(data.id)}`;
+    document.querySelector('.gif').src = getImage(data.sprites.other["official-artwork"].front_default);
+    document.getElementById('height').innerText = convertHeight(data.height);
+    document.getElementById('weight').innerText = convertWeight(data.weight);
+    document.getElementById('abilities').innerText = getAbilities(data.abilities);
+    document.getElementById('type').innerText = getType(data.types);
+    document.getElementById('description').innerText = description;
 }
 
 function displayInfoFromLocalStorage(data) {
-  displayLocalStorageItemSize(data.name);
-  console.log(data);
-  if (data.cries.legacy !== null) {
-      playAudio(data.cries.legacy);
-  } else {
-      playAudio(data.cries.latest);
-  }
-  document.querySelector('h2').innerText = data.name;
-  document.querySelector('.id').innerText = `#${data.id}`;
-  document.querySelector('.gif').src = getImage(data.image);
-  document.getElementById('height').innerText = convertHeight(data.height);
-  document.getElementById('weight').innerText = convertWeight(data.weight);
-  document.getElementById('abilities').innerText = getAbilities(data.abilities);
-  document.getElementById('type').innerText = getType(data.type);
-  document.getElementById('description').innerText = data.description;
+    displayLocalStorageItemSize(data.name);
+    console.log(data);
+    if (data.cries.legacy !== null) {
+        playAudio(data.cries.legacy);
+    } else {
+        playAudio(data.cries.latest);
+    }
+    document.querySelector('h2').innerText = data.name;
+    document.querySelector('.id').innerText = `#${data.id}`;
+    document.querySelector('.gif').src = getImage(data.image);
+    document.getElementById('height').innerText = convertHeight(data.height);
+    document.getElementById('weight').innerText = convertWeight(data.weight);
+    document.getElementById('abilities').innerText = getAbilities(data.abilities);
+    document.getElementById('type').innerText = getType(data.type);
+    document.getElementById('description').innerText = data.description;
 }
 
 // Function to display the size of an item in localStorage
 function displayLocalStorageItemSize(key) {
-  const item = localStorage.getItem(key);
-  if (item) {
-      const sizeInBytes = new TextEncoder().encode(item).length;
-      const sizeInKB = sizeInBytes / 1024;
-      console.log(`Size of '${key}' in localStorage: ${sizeInBytes} bytes (${sizeInKB.toFixed(2)} KB)`);
-  } else {
-      console.error(`Item '${key}' not found in localStorage`);
-  }
+    const item = localStorage.getItem(key);
+    if (item) {
+        const sizeInBytes = new TextEncoder().encode(item).length;
+        const sizeInKB = sizeInBytes / 1024;
+        console.log(`Size of '${key}' in localStorage: ${sizeInBytes} bytes (${sizeInKB.toFixed(2)} KB)`);
+    } else {
+        console.error(`Item '${key}' not found in localStorage`);
+    }
 }
 
 // Convert height from decimetres to feet and inches (feet' inches")
 function convertHeight(deci) {
-  if (deci) {
-      document.querySelector('.height').classList.remove('hidden');
-  } else {
-      document.querySelector('.weight').classList.add('hidden');
-  }
-  let inches = deci * 3.93701;
-  let feet = Math.floor(inches / 12);
-  inches = Math.round(inches % 12);
-  if (inches == 12) {
-      inches = 0;
-      feet++;
-  }
-  let strInches = inches < 10 ? `0${inches}` : `${inches}`;
-  return `${feet}' ${strInches}"`;
+    if (deci) {
+        document.querySelector('.height').classList.remove('hidden');
+    } else {
+        document.querySelector('.weight').classList.add('hidden');
+    }
+    let inches = deci * 3.93701;
+    let feet = Math.floor(inches / 12);
+    inches = Math.round(inches % 12);
+    if (inches == 12) {
+        inches = 0;
+        feet++;
+    }
+    let strInches = inches < 10 ? `0${inches}` : `${inches}`;
+    return `${feet}' ${strInches}"`;
 }
 
 // Convert weight from hectograms to lbs
 function convertWeight(hecto) {
-  if (hecto) {
-      document.querySelector('.weight').classList.remove('hidden');
-  } else {
-      document.querySelector('.weight').classList.add('hidden');
-  }
-  return `${(hecto / 4.536).toFixed(1)} lbs`;
+    if (hecto) {
+        document.querySelector('.weight').classList.remove('hidden');
+    } else {
+        document.querySelector('.weight').classList.add('hidden');
+    }
+    return `${(hecto / 4.536).toFixed(1)} lbs`;
 }
 
 function getAbilities(abilities) {
-  if (abilities) {
-      document.querySelector('.abilities').classList.remove('hidden');
-  } else {
-      document.querySelector('.abilities').classList.add('hidden');
-  }
-  return abilities.map(x => x.ability.name.split('-').map(x => x[0].toUpperCase() + x.slice(1)).join(' ')).join(', ');
+    if (abilities) {
+        document.querySelector('.abilities').classList.remove('hidden');
+    } else {
+        document.querySelector('.abilities').classList.add('hidden');
+    }
+    return abilities.map(x => x.ability.name.split('-').map(x => x[0].toUpperCase() + x.slice(1)).join(' ')).join(', ');
 }
 
 function getImage(image) {
@@ -237,12 +232,12 @@ function getImage(image) {
 }
 
 function getType(types) {
-  if (types) {
-      document.querySelector('.type').classList.remove('hidden');
-  } else {
-      document.querySelector('.type').classList.add('hidden');
-  }
-  return types.map(x => capitalizeFirst(x.type.name)).join(', ');
+    if (types) {
+        document.querySelector('.type').classList.remove('hidden');
+    } else {
+        document.querySelector('.type').classList.add('hidden');
+    }
+    return types.map(x => capitalizeFirst(x.type.name)).join(', ');
 }
 
 function processId(id) {
@@ -267,9 +262,9 @@ function capitalizeFirst(str) {
 }
 
 function playAudio(file) {
-  let audio = new Audio(file);
-  audio.volume = 0.02;
-  audio.play();
+    let audio = new Audio(file);
+    audio.volume = 0.02;
+    audio.play();
 }
 
 const pokemonList = ['bulbasaur','ivysaur','venusaur','charmander','charmeleon','charizard','squirtle','wartortle','blastoise','caterpie','metapod','butterfree','weedle',
