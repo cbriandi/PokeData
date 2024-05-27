@@ -26,11 +26,19 @@
   border: 1px solid var(--black);
 } */
 
-body, header, .pokedex {
+header, footer, .pokedex {
   border: 2px solid var(--black);
 }
 
+header {
+  border: 2px solid var(--black);
+  border-top: none;
+}
 
+footer {
+  border: 2px solid var(--black);
+  border-bottom: none;
+}
 
 /******************************************
 /* ADDITIONAL STYLES
@@ -52,7 +60,7 @@ body {
 }
 
 header {
-  height: 80px;
+  height: calc(10vh);
   background: var(--red);
   display: flex;
   align-items: center;
@@ -61,6 +69,27 @@ header {
   border-bottom-right-radius: 15px;
 }
 
+footer {
+  height: 5vh;
+  background: var(--red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+footer p {
+  font-size: 1.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+footer a {
+  color: inherit;
+}
+
+
 .logo {
   display: flex;
   max-width: 10%;
@@ -68,7 +97,8 @@ header {
 }
 
 .pokedex {
-  width: 200px;
+  max-width: 20%;
+  min-height: 3vh;
   position: relative;
   margin: 0 20px 0 0;
 }
@@ -79,8 +109,9 @@ header {
 
 #pokemonInput {
   width: 100%;
+  height: 3vh;
   padding: 10px;
-  font-size: 16px;
+  font-size: 1.4rem;
 }
 
 .dropdown {
@@ -98,6 +129,7 @@ header {
 .dropdown li {
   padding: 10px;
   cursor: pointer;
+  font-size: 1rem;
 }
 
 .dropdown li:hover {
@@ -106,7 +138,7 @@ header {
 
 main {
   width: 80%;
-  min-height: 800px;
+  height: 85vh;
   margin: 0 auto;
   background: var(--gray);
 }
@@ -135,8 +167,8 @@ main {
 }
 
 .imageBox {
-  width: 300px;
-  height: 300px;
+  width: 40vh;
+  height: 40vh;
   background: #000000;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #434343, #000000);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #434343, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -154,8 +186,8 @@ main {
 .infoBox {
   font-size: 1.6rem;
   margin-left: 30px;
-  width: 20%;
-  height: 300px;
+  width: 40vh;
+  height: 40vh;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
