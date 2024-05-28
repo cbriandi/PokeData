@@ -1,6 +1,6 @@
 //class for local storage
 class Pokemon {
-    constructor(name, cries, image, height, weight, abilities, type, description, id) {
+    constructor(name, cries, image, height, weight, abilities, type, description, id, stats) {
         this.name = name;
         this.cries = cries;
         this.image = image;
@@ -9,7 +9,8 @@ class Pokemon {
         this.abilities = abilities;
         this.type = type;
         this.description = description;
-        this.id = id
+        this.id = id;
+        this.stats = stats; //[hp, attack,  defense, sp attack, sp defense, speed]
     }
 }
 
@@ -17,7 +18,7 @@ const pokemonInput = document.getElementById('pokemonInput');
 const dropdown = document.getElementById('dropdown');
 
 pokemonInput.addEventListener('input', () => {
-    const input = pokemonInput.value.toLowerCase();
+    const input = pokemonInput.value.toLowerCase().replaceAll(' ', '-');
     dropdown.innerHTML = '';
     if (input) {
         const filteredPokemon = pokemonList.filter(pokemon =>
@@ -29,17 +30,16 @@ pokemonInput.addEventListener('input', () => {
             li.textContent = processName(pokemon);
             li.addEventListener('click', () => {
                 pokemonInput.value = processName(pokemon);
-                if (localStorage.getItem(processName(pokemon))) {
+                if (localStorage.getItem(pokemon)) {
                     console.log(`${processName(pokemon)} is in storage!`);
-                    displayInfoFromLocalStorage(getFromLocal(processName(pokemon)));
+                    displayInfoFromLocalStorage(getFromLocal(pokemon));
                 } else {
-                    console.log(`not in storage, fetching from API`);
+                    console.log(`${processName(pokemon)} is not in storage, fetching from API`);
                     const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
                     getFetch(url, pokemon);
                 }
                 dropdown.innerHTML = '';
                 dropdown.style.display = 'none';
-                // You can add a function here to fetch and display the Pokémon stats
             });
             dropdown.appendChild(li);
         });
@@ -60,20 +60,21 @@ function getFetch(url, pokemon) {
   fetch(url)
       .then(res => res.json()) // parse response as JSON
       .then(data => {
-        console.log(data);
         return fetchDescription(data.species.url)
         .then(description => {
             displayInfoFromFetch(data, description);
             const name = processName(pokemon);
-            const cries = data.cries;
-            //   const image = data.sprites.other.dream_world.front_default ? data.sprites.other.dream_world.front_default : data.sprites.other.home.front_default;
+            const cries = data.cries.latest;
             const image = data.sprites.other["official-artwork"].front_default;
             const height = data.height;
             const weight = data.weight;
             const abilities = data.abilities;
             const type = data.types;
             const id = processId(data.id);
-            const pokemonObj = new Pokemon(name, cries, image, height, weight, abilities, type, description, id);
+            console.log(data.stats);
+            const stats = data.stats.map(x => x.base_stat);
+            console.log(`I got stats as: ${stats}`)
+            const pokemonObj = new Pokemon(name, cries, image, height, weight, abilities, type, description, id, stats);
             const pokemonJSON = JSON.stringify(pokemonObj);
             localStorage.setItem(pokemon, pokemonJSON);
         })
@@ -88,18 +89,18 @@ function getFetch(url, pokemon) {
 
 pokemonInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && document.activeElement === pokemonInput) {
-        const pokemon = pokemonInput.value.trim().toLowerCase();
+        const pokemon = pokemonInput.value.trim().toLowerCase().replaceAll(' ', '-');
         if (pokemon && pokemonList.includes(pokemon)) {
             console.log(`Selected Pokémon: ${pokemon}`);
             dropdown.style.display = 'none';
             if (localStorage.getItem(pokemon)) {
               console.log(`${pokemon} is in storage!`);
               displayInfoFromLocalStorage(getFromLocal(pokemon));
-          } else {
-              console.log(`not in storage, fetching from API`);
+            } else {
+              console.log(`${pokemon} is not in storage, fetching from API`);
               const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
               getFetch(url, pokemon);
-          }
+            }
         } else {
             console.log('Please select a valid Pokémon from the dropdown.');
         }
@@ -124,10 +125,11 @@ function fetchDescription(url) {
     });
 }
 
-function getFromLocal(pokemon) {
-  const pokemonJSON = localStorage.getItem(pokemon);
+function getFromLocal(poke) {
+  const pokemonJSON = localStorage.getItem(poke);
   try {
       const pokemon = JSON.parse(pokemonJSON);
+      console.log(`${poke} is returning ${pokemon}`);
       return pokemon;
   } catch (error) {
       console.error('Error parsing JSON from localStorage:', error);
@@ -137,11 +139,7 @@ function getFromLocal(pokemon) {
 
 function displayInfoFromFetch(data, description) {
     console.log(data);
-    if (data.cries.legacy !== null) {
-        playAudio(data.cries.legacy);
-    } else {
-        playAudio(data.cries.latest);
-    }
+     playAudio(data.cries.latest);
     document.querySelector('h2').innerText = processName(data.name);
     // document.querySelector('img').src = data.sprites.other.dream_world.front_default !== null ? data.sprites.other.dream_world.front_default : data.sprites.other.home.front_default;
     document.querySelector('.id').innerText = `#${processId(data.id)}`;
@@ -151,16 +149,19 @@ function displayInfoFromFetch(data, description) {
     document.getElementById('abilities').innerText = getAbilities(data.abilities);
     document.getElementById('type').innerText = getType(data.types);
     document.getElementById('description').innerText = description;
+    
+    document.getElementById('hp').innerText = data.stats[0].base_stat;
+    document.getElementById('attack').innerText = data.stats[1].base_stat;
+    document.getElementById('defense').innerText = data.stats[2].base_stat;
+    document.getElementById('spAttack').innerText = data.stats[3].base_stat;
+    document.getElementById('spDefense').innerText = data.stats[4].base_stat;
+    document.getElementById('speed').innerText = data.stats[5].base_stat;
+    unhideStats();
 }
 
 function displayInfoFromLocalStorage(data) {
-    displayLocalStorageItemSize(data.name);
     console.log(data);
-    if (data.cries.legacy !== null) {
-        playAudio(data.cries.legacy);
-    } else {
-        playAudio(data.cries.latest);
-    }
+    playAudio(data.cries);
     document.querySelector('h2').innerText = data.name;
     document.querySelector('.id').innerText = `#${data.id}`;
     document.querySelector('.gif').src = getImage(data.image);
@@ -169,6 +170,14 @@ function displayInfoFromLocalStorage(data) {
     document.getElementById('abilities').innerText = getAbilities(data.abilities);
     document.getElementById('type').innerText = getType(data.type);
     document.getElementById('description').innerText = data.description;
+
+    document.getElementById('hp').innerText = data.stats[0];
+    document.getElementById('attack').innerText = data.stats[1];
+    document.getElementById('defense').innerText = data.stats[2];
+    document.getElementById('spAttack').innerText = data.stats[3];
+    document.getElementById('spDefense').innerText = data.stats[4];
+    document.getElementById('speed').innerText = data.stats[5];
+    unhideStats();
 }
 
 // Function to display the size of an item in localStorage
@@ -259,6 +268,15 @@ function processName(name) {
 
 function capitalizeFirst(str) {
     return str[0].toUpperCase() + str.slice(1);
+}
+
+function unhideStats() {
+    document.querySelector('.hp').classList.remove('hidden');
+    document.querySelector('.attack').classList.remove('hidden');
+    document.querySelector('.defense').classList.remove('hidden');
+    document.querySelector('.spAttack').classList.remove('hidden');
+    document.querySelector('.spDefense').classList.remove('hidden');
+    document.querySelector('.speed').classList.remove('hidden');
 }
 
 function playAudio(file) {
