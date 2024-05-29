@@ -271,6 +271,7 @@ function capitalizeFirst(str) {
 }
 
 function unhideStats() {
+    document.querySelector('.row2').classList.remove('hidden');
     document.querySelector('.hp').classList.remove('hidden');
     document.querySelector('.attack').classList.remove('hidden');
     document.querySelector('.defense').classList.remove('hidden');
