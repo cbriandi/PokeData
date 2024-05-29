@@ -140,7 +140,6 @@ function getFromLocal(poke) {
 function displayInfoFromLocalStorage(data) {
     document.querySelector('.frontPage').classList.add('collapse');
     console.log(data);
-    playAudio(data.cries);
     document.querySelector('h2').innerText = data.name;
     document.querySelector('.id').innerText = `#${data.id}`;
     document.querySelector('.gif').src = getImage(data.image);
@@ -156,6 +155,7 @@ function displayInfoFromLocalStorage(data) {
     document.getElementById('spDefense').innerText = data.stats[4];
     document.getElementById('speed').innerText = data.stats[5];
     unhideStats();
+    playAudio(data.cries);
 }
 
 // Function to display the size of an item in localStorage
