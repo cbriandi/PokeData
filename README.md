@@ -7,7 +7,7 @@
 PokeData is a responsive Pokédex web application that fetches and displays Pokémon information using PokeAPI.
 
 <div align="center">
-  <img style="width: 75%;" src="css\images\screenshot.png" alt="PokeData Screenshot">
+  <img style="width: 75%;" src="css\images\screenshot.webp" alt="PokeData Screenshot">
 </div>
 
 ## Features
