@@ -45,7 +45,7 @@
 /*******************************************/
 html {
   width: 100vw;
-  height: var(--usable-vh);
+  height: 100vh;
   font-size: 62.5%;
   font-family: "Roboto", sans-serif;
 }
@@ -108,7 +108,7 @@ body {
 }
 
 header {
-  height: calc(var(--usable-vh) * .1);
+  height: 10vh;
   background: var(--red);
   display: flex;
   align-items: center;
@@ -118,7 +118,7 @@ header {
 }
 
 footer {
-  height: calc(var(--usable-vh) * .05);
+  height: 5vh;
   background: var(--red);
   display: flex;
   align-items: center;
@@ -130,7 +130,7 @@ footer {
 footer p {
   font-size: 1.6rem;
   font-weight: 500;
-  line-height: calc(var(--usable-vh) * .04);
+  line-height:4vh;
   padding: 0;
   margin: 0;
   text-align: center;
@@ -196,7 +196,7 @@ footer a {
 
 main {
   width: 80%;
-  height: calc(var(--usable-vh) * .85);
+  height: 85vh;
   margin: 0 auto;
   background: var(--gray);
 }
@@ -225,8 +225,8 @@ main {
 }
 
 .imageBox {
-  width: calc(var(--usable-vh) * .4);
-  height: calc(var(--usable-vh) * .4);
+  width: 40vh;
+  height: 40vh;
   background: #000000;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #434343, #000000);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #434343, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -245,7 +245,7 @@ main {
   font-size: 1.6rem;
   margin-left: 30px;
   width: 25%;
-  height: calc(var(--usable-vh) * .4);
+  height: 40vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -330,7 +330,7 @@ main {
     width: 100%;
   }
   header {
-    height: calc(var(--usable-vh) * .04);
+    height: 4vh;
   }
   .logo {
     width: 18%;
@@ -345,7 +345,7 @@ main {
     padding: 5px;
   }
   main {
-    height: calc(var(--usable-vh) * .91);
+    height: 91vh;
   }
   .info {
     flex-direction: column;
@@ -356,7 +356,7 @@ main {
     height: 25vw;
   }
   .infoBox {
-    height: calc(var(--usable-vh) * .4);
+    height: 40vh;
     width: 60%;
     justify-content: flex-start;
   }
@@ -390,24 +390,24 @@ main {
     font-size: 1.2rem;
   }
   header {
-    height: calc(var(--usable-vh) * .07);
+    height: 7vh;
   }
   .logo {
     width: 15%;
   }
   main {
-    height: calc(var(--usable-vh) * .88);
+    height: 88vh;
   }
   .info {
     flex-direction: column;
     justify-content: space-between;
   }
   .imageBox {
-    width: calc(var(--usable-vh) * .25);
-    height: calc(var(--usable-vh) * .25);
+    width: 25vh;
+    height: 25vh;
   }
   .infoBox {
-    height: calc(var(--usable-vh) * .4);
+    height: 40vh;
     width: 60%;
   }
   #description {

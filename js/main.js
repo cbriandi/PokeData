@@ -1,11 +1,3 @@
-function setUsableHeight() {
-    const usableHeight = window.innerHeight;
-    document.documentElement.style.setProperty('--usable-vh', `${usableHeight}px`);
-  }
-
-  
-setUsableHeight();
-
 //class for local storage
 class Pokemon {
     constructor(name, cries, image, height, weight, abilities, type, description, id, stats) {
