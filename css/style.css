@@ -63,6 +63,30 @@ footer {
 /*******************************************/
 
 
+.frontPage {
+  padding: 5% 25%;;
+  width: 100%;
+  height: 50%;
+}
+
+.frontPage h1 {
+  margin-bottom: 2%;
+  font-size: 4rem;
+  text-align: center;
+}
+
+.frontPage p {
+  text-align: center;
+  font-size: 2rem;
+  line-height: 4rem;
+}
+
+.begin {
+  margin-top: 2%;
+  font-weight: 600;
+}
+
+
 html {
   font-size: 62.5%;
   font-family: "Roboto", sans-serif;
@@ -102,26 +126,23 @@ footer {
 }
 
 footer p {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height:4vh;
   padding: 0;
   margin: 0;
-}
-
-footer a {
-  color: inherit;
-}
-
-.frontPage {
-  padding: 10%;;
-  width: 100%;
-  height: 100%;
-}
-
-.frontPage h1 {
-  font-size: 4rem;
   text-align: center;
 }
 
+footer a {
+  display: inline;
+  color: inherit;
+}
+
+.footImg {
+  display: inline;
+  width: 6%;
+}
 
 .logo {
   display: flex;
