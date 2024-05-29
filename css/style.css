@@ -219,6 +219,7 @@ main {
   height: 35%;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 5%;
 }
 
 .row2 {
@@ -235,9 +236,6 @@ main {
 
 .col {
   max-width: 50%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 .col h3 {
@@ -247,11 +245,11 @@ main {
 }
 
 .col span{
-  font-size: 1.8rem;
+  font-size: 1.6rem;
 }
 
 .col li + li {
-  margin: 15% 0 0 0;
+  margin: 40px 0 0 0;
 }
 
 #description {
