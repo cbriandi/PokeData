@@ -6,8 +6,6 @@ function setUsableHeight() {
   // Run on initial load
   setUsableHeight();
   
-  // Run on resize
-  window.addEventListener('resize', setUsableHeight);
 
 //class for local storage
 class Pokemon {
