@@ -2,10 +2,9 @@ function setUsableHeight() {
     const usableHeight = window.innerHeight;
     document.documentElement.style.setProperty('--usable-vh', `${usableHeight}px`);
   }
+
   
-  // Run on initial load
-  setUsableHeight();
-  
+setUsableHeight();
 
 //class for local storage
 class Pokemon {
