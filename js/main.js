@@ -62,7 +62,6 @@ function getFetch(url, pokemon) {
       .then(data => {
         return fetchDescription(data.species.url)
         .then(description => {
-            displayInfoFromFetch(data, description);
             const name = processName(pokemon);
             const cries = data.cries.latest;
             const image = data.sprites.other["official-artwork"].front_default;
@@ -75,6 +74,7 @@ function getFetch(url, pokemon) {
             const stats = data.stats.map(x => x.base_stat);
             console.log(`I got stats as: ${stats}`)
             const pokemonObj = new Pokemon(name, cries, image, height, weight, abilities, type, description, id, stats);
+            displayInfoFromLocalStorage(pokemonObj);
             const pokemonJSON = JSON.stringify(pokemonObj);
             localStorage.setItem(pokemon, pokemonJSON);
         })
@@ -137,29 +137,8 @@ function getFromLocal(poke) {
   }
 }
 
-function displayInfoFromFetch(data, description) {
-    console.log(data);
-     playAudio(data.cries.latest);
-    document.querySelector('h2').innerText = processName(data.name);
-    // document.querySelector('img').src = data.sprites.other.dream_world.front_default !== null ? data.sprites.other.dream_world.front_default : data.sprites.other.home.front_default;
-    document.querySelector('.id').innerText = `#${processId(data.id)}`;
-    document.querySelector('.gif').src = getImage(data.sprites.other["official-artwork"].front_default);
-    document.getElementById('height').innerText = convertHeight(data.height);
-    document.getElementById('weight').innerText = convertWeight(data.weight);
-    document.getElementById('abilities').innerText = getAbilities(data.abilities);
-    document.getElementById('type').innerText = getType(data.types);
-    document.getElementById('description').innerText = description;
-    
-    document.getElementById('hp').innerText = data.stats[0].base_stat;
-    document.getElementById('attack').innerText = data.stats[1].base_stat;
-    document.getElementById('defense').innerText = data.stats[2].base_stat;
-    document.getElementById('spAttack').innerText = data.stats[3].base_stat;
-    document.getElementById('spDefense').innerText = data.stats[4].base_stat;
-    document.getElementById('speed').innerText = data.stats[5].base_stat;
-    unhideStats();
-}
-
 function displayInfoFromLocalStorage(data) {
+    document.querySelector('.frontPage').classList.add('collapse');
     console.log(data);
     playAudio(data.cries);
     document.querySelector('h2').innerText = data.name;
@@ -170,7 +149,6 @@ function displayInfoFromLocalStorage(data) {
     document.getElementById('abilities').innerText = getAbilities(data.abilities);
     document.getElementById('type').innerText = getType(data.type);
     document.getElementById('description').innerText = data.description;
-
     document.getElementById('hp').innerText = data.stats[0];
     document.getElementById('attack').innerText = data.stats[1];
     document.getElementById('defense').innerText = data.stats[2];
