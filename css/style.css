@@ -82,6 +82,12 @@ footer {
   text-align: center;
 }
 
+.pikachu {
+  display: block;
+  margin: 0 auto;
+  width: 20%;
+}
+
 .frontPage p {
   text-align: center;
   font-size: 2rem;
