@@ -2,9 +2,9 @@
   <img style="width: 75%;" src="css\images\PokeData.svg" alt="PokeData">
 </div>
 
-# PokeData
+# PokéData
 
-PokeData is a responsive Pokédex web application that fetches and displays Pokémon information using PokeAPI.
+PokéData is a responsive Pokédex web application that fetches and displays Pokémon information using PokeAPI.
 
 **Link to project:** https://cbriandi.github.io/PokeData/
 
