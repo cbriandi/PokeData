@@ -44,7 +44,7 @@ To optimize this app, I would add a loading icon while all items are fetched and
 
 ## Lessons Learned:
 
-Building this responsive website enhanced my understanding of API fetches and how to process the data that is retrived from an API.
+Building this app enhanced my understanding of API fetches and how to process the data that is retrived from an API.
 
 ## How to Contribute
 
