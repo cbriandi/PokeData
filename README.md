@@ -6,6 +6,8 @@
 
 PokeData is a responsive Pokédex web application that fetches and displays Pokémon information using PokeAPI.
 
+**Link to project:** https://cbriandi.github.io/PokeData/
+
 <div align="center">
   <img style="width: 75%;" src="css\images\screenshot.webp" alt="PokeData Screenshot">
 </div>
@@ -15,7 +17,6 @@ PokeData is a responsive Pokédex web application that fetches and displays Pok�
 - **Pokémon Search**: Search for Pokémon by name.
 - **Pokémon Details**: View detailed information about each Pokémon, including types, abilities, and stats.
 - **Responsive Design**: Optimized for both desktop and mobile browsers.
-- **Error Handling**: Graceful handling of API errors and user input errors.
 
 ## Technologies Used
 
@@ -36,6 +37,14 @@ cd PokeData
 
 
 3. Open `index.html` in a web browser.
+
+
+## Optimizations
+To optimize this app, I would add a loading icon while all items are fetched and loaded into the DOM. This would make the app look much more professional because in the current iteration some items load in quicker than others. In future iterations I would like to add more content to the webpage, including the Pokemon's evolution tree. I would also like to add more content to the front page of the site, as the current page looks pretty bland.
+
+## Lessons Learned:
+
+Building this responsive website enhanced my understanding of API fetches and how to process the data that is retrived from an API.
 
 ## How to Contribute
 
