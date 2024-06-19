@@ -29,7 +29,7 @@ PokéData is a responsive Pokédex web application that fetches and displays Pok
 ## Usage
 
 1. Clone the repository:
-git clone https://github.com/your-username/PokeData.git
+git clone https://github.com/cbriandi/PokeData.git
 
 
 2. Navigate into the project directory:
